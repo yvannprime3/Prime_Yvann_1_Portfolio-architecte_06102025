@@ -44,7 +44,7 @@ boutonTous.addEventListener("click", function () {
     console.log(travauxFiltres)
 })
 
-const boutonHotelsRestaurants = document.querySelector(".btn-hotels&restaurants")
+const boutonHotelsRestaurants = document.querySelector(".btn-hotelsRestaurants")
 boutonTous.addEventListener("click", function () {
     const travauxFiltres = travaux.filter(function (travaux) {
         return travaux.categoryId
