@@ -16,44 +16,68 @@ fetch("http://localhost:5678/api/works").then((res) => {
         `
 		})
 		// console.log(document.querySelector(".gallery").querySelectorAll("figure"))
-		const travailRamener = document.querySelector(".gallery").querySelectorAll("figure")
+		const travailRamener = document
+			.querySelector(".gallery")
+			.querySelectorAll("figure")
 
 		// select les boutons filtres
 		// attendre la reponse de la requete fetch
 		const boutonTous = document.querySelector(".btn-tous")
 		const boutonObjets = document.querySelector(".btn-objets")
 		const boutonAppartements = document.querySelector(".btn-appartements")
-		const boutonHotelsRestaurants = document.querySelector(".btn-hotelsRestaurants")
+		const boutonHotelsRestaurants = document.querySelector(
+			".btn-hotelsRestaurants"
+		)
 		// Boutons filtres //
 
-const boutonTous = document.querySelector(".btn-tous")
-boutonTous.addEventListener("click", function () {
-    const travauxFiltres = travaux.filter(function (travaux) {
-        return travaux.categoryId
-    })
-    console.log(travauxFiltres)
+		boutonTous.addEventListener("click", () => filtrer(travailRamener, 0))
+		boutonObjets.addEventListener("click", () => filtrer(travailRamener, 1))
+		boutonAppartements.addEventListener("click", () => filtrer(travailRamener, 2))
+		boutonHotelsRestaurants.addEventListener("click", () => filtrer(travailRamener, 3))
+	})
 })
 
-const boutonObjets = document.querySelector(".btn-objets")
-boutonTous.addEventListener("click", function () {
-    const travauxFiltres = travaux.filter(function (travaux) {
-        return travaux.categoryId
-    })
-    console.log(travauxFiltres)
-})
+const filtrer = (travailArray, filterNo) => {
+	console.log(travailArray, filterNo)
+	// afficher tous les travaux
 
-const boutonAppartements = document.querySelector(".btn-appartements")
-boutonTous.addEventListener("click", function () {
-    const travauxFiltres = travaux.filter(function (travaux) {
-        return travaux.categoryId
-    })
-    console.log(travauxFiltres)
-})
+	if (filterNo === 0) {
+		travailArray.forEach((figure) => {
+			figure.style.display = "block"
+		})
+	}
+	if (filterNo === 1) {
+		// afficher tous les travaux
+		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
+				figure.style.display = "block"
+			})
+		travailArray.forEach((figure) => {
+			if (parseInt(figure.getAttribute("data-categoryId")) !== 1) {
+				figure.style.display = "none"
+			}
+		})
+	}
+	if (filterNo === 2) {
+		// afficher tous les travaux
+		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
+				figure.style.display = "block"
+			})
+		travailArray.forEach((figure) => {
+			if (parseInt(figure.getAttribute("data-categoryId")) !== 2) {
+				figure.style.display = "none"
+			}
+		})
+	}
+	if (filterNo === 3) {
+		// afficher tous les travaux
 
-const boutonHotelsRestaurants = document.querySelector(".btn-hotelsRestaurants")
-boutonTous.addEventListener("click", function () {
-    const travauxFiltres = travaux.filter(function (travaux) {
-        return travaux.categoryId
-    })
-    console.log(travauxFiltres)
-})
+		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
+				figure.style.display = "block"
+			})
+		travailArray.forEach((figure) => {
+			if (parseInt(figure.getAttribute("data-categoryId")) !== 3) {
+				figure.style.display = "none"
+			}
+		})
+	}
+}
