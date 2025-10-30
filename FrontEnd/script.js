@@ -25,9 +25,7 @@ fetch("http://localhost:5678/api/works").then((res) => {
 		const boutonTous = document.querySelector(".btn-tous")
 		const boutonObjets = document.querySelector(".btn-objets")
 		const boutonAppartements = document.querySelector(".btn-appartements")
-		const boutonHotelsRestaurants = document.querySelector(
-			".btn-hotelsRestaurants"
-		)
+		const boutonHotelsRestaurants = document.querySelector(".btn-hotelsRestaurants")
 		// Boutons filtres //
 
 		boutonTous.addEventListener("click", () => filtrer(travailRamener, 0))
@@ -81,3 +79,12 @@ const filtrer = (travailArray, filterNo) => {
 		})
 	}
 }
+
+  const buttons = document.querySelectorAll("button");
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+	});
+});
