@@ -223,7 +223,7 @@ button:hover {
 	color: white;
 }
 
-button:active {
+button.active {
 	background-color: #1D6154;
 	color: white;
 }
