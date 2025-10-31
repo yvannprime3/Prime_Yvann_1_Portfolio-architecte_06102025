@@ -88,3 +88,9 @@ const filtrer = (travailArray, filterNo) => {
       button.classList.add('active');
 	});
 });
+
+
+document.querySelector(".modif").addEventListener("click", () => {
+	document.querySelector(".modal-container").classList.add("show")
+	document.querySelector(".w3-container").innerHTML = "hello from modal !!!"
+})
