@@ -137,9 +137,9 @@ li:hover {
 	width: 100%;
 
 }
-#contact {
+#contact, .form {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
 #contact > * {
 	text-align: center;
@@ -148,14 +148,14 @@ margin: auto;
 #contact h2{
 	margin-bottom: 20px;
 }
-#contact form {
+#contact form, form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input, form input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
@@ -226,4 +226,17 @@ button:hover {
 button.active {
 	background-color: #1D6154;
 	color: white;
+}
+
+form label {
+	margin: 2em 0 1em 0;
+	color: #3d3d3d;
+}
+
+form a {
+	color: #1D6154;
+}
+
+#logIn, #pwdForgot {
+	text-align: center;
 }
