@@ -240,3 +240,8 @@ form a {
 #logIn, #pwdForgot {
 	text-align: center;
 }
+
+.login {
+	text-decoration: none;
+	color: #000000;
+}
