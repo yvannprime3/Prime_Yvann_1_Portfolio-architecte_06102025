@@ -3,6 +3,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 
 const email = document.getElementById("email").value.trim();
 const password = document.getElementById("pwd").value.trim();
+const message = document.getElementById("message");
 
 message.style.color = "black";
 message.textContent = "Connexion en cours...";
