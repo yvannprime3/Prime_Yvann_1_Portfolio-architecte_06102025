@@ -18,6 +18,7 @@ message.textContent = "Connexion en cours...";
 // Connexion réussie //
     if (response.status === 200) {
         const data = await response.json();
+        
 
 // Stocke le token //
     if (data.token) {
@@ -30,7 +31,7 @@ message.textContent = "Connexion en cours...";
 // Redirection vers la page d'accueil //
     setTimeout(() => {
         window.location.href = "index.html";
-        }, 1000);
+        }, 1000); 
 // Connexion échoué
     } else if (response.status === 401 || response.status === 404) {
         message.style.color = "red";
@@ -46,3 +47,16 @@ message.textContent = "Connexion en cours...";
         message.textContent = "Impossible de contacter le serveur. Vérifie ta connexion.";
     }
 });
+
+window.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const modifier = document.querySelector(".btn-modifier");
+    modifier.style.display = "flex";
+    
+}
+});
+
+//const modifier = document.querySelector(".btn-modifier");
+//modifier.style.display = "flex";

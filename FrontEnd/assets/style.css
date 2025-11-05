@@ -193,7 +193,7 @@ footer nav ul {
 	margin-bottom: 40px;
 }
 
-button {
+.btn-tous, .btn-appartements, .btn-hotelsRestaurants, .btn-objets {
 	font-family: 'Syne';
 	font-size: 16px;
 	color: #1D6154;
@@ -218,12 +218,12 @@ button {
 	padding: 8px 10px;
 }
 
-button:hover {
+.btn-tous:hover, .btn-appartements:hover, .btn-hotelsRestaurants:hover, .btn-objets:hover {
 	background-color: #1D6154;
 	color: white;
 }
 
-button.active {
+.btn-tous.active, .btn-appartements.active, .btn-hotelsRestaurants.active, .btn-objets.active {
 	background-color: #1D6154;
 	color: white;
 }
@@ -244,4 +244,29 @@ form a {
 .login {
 	text-decoration: none;
 	color: #000000;
+}
+
+.projets {
+	display: flex;
+	justify-content: center;
+	margin: 40px 0;
+	position: relative;
+}
+
+.btn-modifier {
+	align-items: center;
+	gap: 10px;
+	background-color: transparent;
+	border: none;
+	color: #000000;
+	font-size: 14px;
+	font-family: 'Work Sans';
+	position: absolute;
+	top: 10%;
+	left: 60%;
+	display: none;
+}
+
+.btn-modifier:hover {
+	font-weight: 700;
 }
