@@ -53,8 +53,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (token) {
     const modifier = document.querySelector(".btn-modifier");
+    console.log(modifier)
     modifier.style.display = "flex";
-    
 }
 });
 

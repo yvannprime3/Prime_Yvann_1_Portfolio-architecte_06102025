@@ -88,3 +88,19 @@ const filtrer = (travailArray, filterNo) => {
       button.classList.add('active');
 	});
 });
+
+document.querySelector(".btn-modifier").addEventListener("click", () => {
+	document.querySelector(".modal-container").classList.add("show")
+})
+
+document.querySelector(".close-btn").addEventListener("click", () => {
+	document.querySelector(".modal-container").classList.remove("show")
+})
+
+const modal = document.querySelector(".modal-container")
+
+modal.addEventListener("click", (e) => {
+	if (e.target ===modal){
+		modal.classList.remove("show")
+	}
+})
