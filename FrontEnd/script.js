@@ -1,5 +1,4 @@
 fetch("http://localhost:5678/api/works").then((res) => {
-	// console.log(res)
 	if (!res.ok) {
 		document.querySelector(".gallery").innerHTML = "Erreur de connexion"
 		return
@@ -15,7 +14,6 @@ fetch("http://localhost:5678/api/works").then((res) => {
 			</figure>
         `
 		})
-		// console.log(document.querySelector(".gallery").querySelectorAll("figure"))
 		const travailRamener = document
 			.querySelector(".gallery")
 			.querySelectorAll("figure")
@@ -122,6 +120,17 @@ fetch("http://localhost:5678/api/works").then((res) => {
             	</button>
 			</figure>
         `
+		})
+			document.querySelectorAll(".delete-btn").forEach((btn) => {
+      		btn.addEventListener("click", (e) => {
+        	e.preventDefault();
+        	const id = btn.dataset.id;
+
+        	// Confirmation avant suppression
+       		 if (!confirm("Supprimer cette image ?")) return;
+
+        	deleteWork(id);
+      		});
 		})
 	})
 })
