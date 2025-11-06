@@ -104,3 +104,24 @@ modal.addEventListener("click", (e) => {
 		modal.classList.remove("show")
 	}
 })
+
+fetch("http://localhost:5678/api/works").then((res) => {
+	if (!res.ok) {
+		document.querySelector(".gallery-modal").innerHTML = "Erreur de connexion"
+		return
+	}
+	res.json().then((data) => {
+		console.log(data)
+		document.querySelector(".gallery-modal").innerHTML = ""
+		data.forEach((work) => {
+			document.querySelector(".gallery-modal").innerHTML += `
+        	<figure data-categoryId=${work.categoryId}  >
+				<img src="${work.imageUrl}" alt="Abajour Tahina">
+				<button class="delete-btn" data-id="${work.id}" title="Supprimer">
+              	<i class="fa-solid fa-trash-can"></i>
+            	</button>
+			</figure>
+        `
+		})
+	})
+})
