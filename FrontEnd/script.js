@@ -134,3 +134,20 @@ fetch("http://localhost:5678/api/works").then((res) => {
 		})
 	})
 })
+
+function deleteWork(id) {
+  fetch(`http://localhost:5678/api/works/${id}`, {
+    method: "DELETE",
+    headers: {"Authorization": `Bearer ${localStorage.getItem("token")}`,},
+  })
+    .then((res) => {
+      if (res.ok) {
+        // Supprimer l'élément du DOM
+        const figure = document.querySelector(`figure[data-id="${id}"]`);
+        if (figure) figure.remove();
+        console.log(`Image ${id} supprimée`);
+      } else {
+        alert("Erreur lors de la suppression de l’image.");
+      }
+    })
+}
