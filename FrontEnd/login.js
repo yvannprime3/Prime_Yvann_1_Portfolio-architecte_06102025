@@ -46,17 +46,4 @@ message.textContent = "Connexion en cours...";
         message.style.color = "red";
         message.textContent = "Impossible de contacter le serveur. Vérifie ta connexion.";
     }
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    const modifier = document.querySelector(".btn-modifier");
-    console.log(modifier)
-    modifier.style.display = "flex";
-}
-});
-
-//const modifier = document.querySelector(".btn-modifier");
-//modifier.style.display = "flex";
+}); 

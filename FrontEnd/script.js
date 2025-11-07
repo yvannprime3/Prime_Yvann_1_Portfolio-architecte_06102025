@@ -1,18 +1,24 @@
 fetch("http://localhost:5678/api/works").then((res) => {
 	if (!res.ok) {
-		document.querySelector(".gallery").innerHTML = "Erreur de connexion"
+		document.querySelector(".gallery").textContent = "Erreur de connexion"
 		return
 	}
 	res.json().then((data) => {
 		console.log(data)
-		document.querySelector(".gallery").innerHTML = ""
+		document.querySelector(".gallery").textContent = ""
 		data.forEach((work) => {
-			document.querySelector(".gallery").innerHTML += `
-        	<figure data-categoryId=${work.categoryId}  >
-				<img src="${work.imageUrl}" alt="Abajour Tahina">
-				<figcaption>${work.title}</figcaption>
-			</figure>
-        `
+			const figure = document.createElement("figure")
+            const figcaption = document.createElement("figcaption")
+            const image = document.createElement("img")
+
+            image.src = work.imageUrl
+            image.alt = work.title
+            figcaption.textContent = work.title
+            figure.appendChild(image.cloneNode())
+            figure.appendChild(figcaption)
+            figure.setAttribute("data-categoryId", work.categoryId)
+            figure.setAttribute("data-id", work.id)
+            document.querySelector(".gallery").appendChild(figure)
 		})
 		const travailRamener = document
 			.querySelector(".gallery")
@@ -144,10 +150,22 @@ function deleteWork(id) {
       if (res.ok) {
         // Supprimer l'élément du DOM
         const figure = document.querySelector(`figure[data-id="${id}"]`);
+		const buttonModale = document.querySelector([`button[data-id="${id}"]`])
         if (figure) figure.remove();
+		if (buttonModale) buttonModale.parentElement.remove()
         console.log(`Image ${id} supprimée`);
       } else {
         alert("Erreur lors de la suppression de l’image.");
       }
     })
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const modifier = document.querySelector(".btn-modifier");
+    console.log(modifier)
+    modifier.style.display = "flex";
+}
+});
