@@ -84,6 +84,23 @@
 			<button class="add-photo-btn">Ajouter une photo</button>
     	</div>
   	</div>
+	<div class="modal-container-ajout" id="modal-container-ajout">
+    	<div class="modal-ajout" id="modal-ajout">
+			<button class="back-btn" id="backModal"><i class="fa-solid fa-arrow-left"></i></button>
+      		<button class="close-btn" id="closeModal">&times;</button>
+			<h2>Ajout photo</h2>
+			<form>
+				<input type="file" id="file">
+				<label for="title">Titre</label>
+				<input type="text" name="title" id="title">
+				<label for="category">Catégorie</label>
+				<select name="category" id="category">
+				</select>
+			</form>
+			<div class="barre"></div>
+			<button class="valider">Valider</button>
+    	</div>
+  	</div>
 <script src="script.js"></script>
 </body>
 </html>

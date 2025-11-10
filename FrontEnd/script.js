@@ -93,10 +93,12 @@ const filtrer = (travailArray, filterNo) => {
 	});
 });
 
+//Apparition de la modale "Galerie photo"//
 document.querySelector(".btn-modifier").addEventListener("click", () => {
 	document.querySelector(".modal-container").classList.add("show")
 })
 
+//Fermeture de la modale "Galerie photo"//
 document.querySelector(".close-btn").addEventListener("click", () => {
 	document.querySelector(".modal-container").classList.remove("show")
 })
@@ -109,6 +111,7 @@ modal.addEventListener("click", (e) => {
 	}
 })
 
+//Récupération des travaux à partir de l'API pour la modale "Galerie photo"//
 fetch("http://localhost:5678/api/works").then((res) => {
 	if (!res.ok) {
 		document.querySelector(".gallery-modal").innerHTML = "Erreur de connexion"
@@ -127,12 +130,13 @@ fetch("http://localhost:5678/api/works").then((res) => {
 			</figure>
         `
 		})
+		//Option de suppression des travaux sur la modale "Galerie photo"//
 			document.querySelectorAll(".delete-btn").forEach((btn) => {
       		btn.addEventListener("click", (e) => {
         	e.preventDefault();
         	const id = btn.dataset.id;
 
-        	// Confirmation avant suppression
+        	//Confirmation avant suppression//
        		 if (!confirm("Supprimer cette image ?")) return;
 
         	deleteWork(id);
@@ -141,6 +145,7 @@ fetch("http://localhost:5678/api/works").then((res) => {
 	})
 })
 
+//Fonction de suppresion de travaux//
 function deleteWork(id) {
   fetch(`http://localhost:5678/api/works/${id}`, {
     method: "DELETE",
@@ -148,7 +153,7 @@ function deleteWork(id) {
   })
     .then((res) => {
       if (res.ok) {
-        // Supprimer l'élément du DOM
+        //Supprimer l'élément du DOM//
         const figure = document.querySelector(`figure[data-id="${id}"]`);
 		const buttonModale = document.querySelector([`button[data-id="${id}"]`])
         if (figure) figure.remove();
@@ -160,6 +165,7 @@ function deleteWork(id) {
     })
 }
 
+//Apparition du bouton modfier sur index.html après connexion//
 window.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
 
@@ -169,3 +175,45 @@ window.addEventListener("DOMContentLoaded", () => {
     modifier.style.display = "flex";
 }
 });
+
+//Apparition de la modale "Ajout photo" avec fermeture de la modale "Galerie photo"//
+document.querySelector(".add-photo-btn").addEventListener("click", () => {
+	document.querySelector(".modal-container-ajout").classList.add("show")
+	document.querySelector(".modal-container").classList.remove("show")
+})
+
+//Fermeture de la modale "Ajout photo"//
+document.querySelector(".close-btn").addEventListener("click", () => {
+	document.querySelector(".modal-container-ajout").classList.remove("show")
+})
+
+const modalAjout = document.querySelector(".modal-container-ajout")
+
+modalAjout.addEventListener("click", (e) => {
+	if (e.target ===modalAjout){
+		modalAjout.classList.remove("show")
+	}
+})
+
+//Passage de la modale "Ajout photo" à la modale "Galerie photo" (Bouton précedent)//
+document.getElementById("backModal").addEventListener("click", () => {
+	document.querySelector(".modal-container-ajout").classList.remove("show")
+	document.querySelector(".modal-container").classList.add("show")
+})
+
+//Récupération des catégories pour les options de "select"//
+fetch("http://localhost:5678/api/categories").then((res) => {
+    if (!res.ok) {
+        console.error("Erreur de connexion aux catégories")
+        return
+    }
+    res.json().then((data) => {
+        console.log(data)
+        data.forEach((category) => {
+            const option = document.createElement("option")
+            option.value = category.name
+            option.textContent = category.name
+            document.querySelector("#category").appendChild(option)
+        })
+    })
+})
