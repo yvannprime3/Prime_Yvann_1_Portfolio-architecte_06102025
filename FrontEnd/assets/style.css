@@ -155,7 +155,7 @@ li:hover {
 	flex-direction: column;
 }
 
-#contact input, form input {
+#contact input, form input, form select {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
@@ -387,6 +387,8 @@ form a {
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.3);
 	border-radius: 10px;
+	justify-content: center;
+	align-items: center;
 }
 
 .modal-container-ajout.show {
@@ -400,7 +402,7 @@ form a {
 	background-color: #fff;
 	padding: 1.5em;
 	outline: 0;
-	width: 600px;
+	width: 630px;
 	box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 10px;
 }
@@ -439,4 +441,10 @@ form a {
   	cursor: pointer;
   	color: #333;
 	width: 21px;
+}
+
+.add-form {
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
 }
