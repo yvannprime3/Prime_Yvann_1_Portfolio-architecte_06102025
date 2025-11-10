@@ -217,3 +217,112 @@ fetch("http://localhost:5678/api/categories").then((res) => {
         })
     })
 })
+
+console.log("script chargé");
+
+const addForm = document.getElementById("addForm");
+const submit = document.getElementById("submit");
+const title = document.getElementById("title");
+const fileInput = document.getElementById("file");
+const category = document.getElementById("category");
+const fileContainer = document.querySelector(".file-container");
+
+//Vérifie que tout est rempli//
+function checkForm() {
+  const isValid = title.value.trim() !== "" && fileInput.files.length > 0 && category.value.trim() !== "";
+  submit.disabled = !isValid;
+}
+
+addForm.addEventListener("input", checkForm);
+addForm.addEventListener("change", checkForm);
+
+addForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log("submit déclenché !");
+  if (title.value.length < 2) {
+    alert("Veuillez saisir au moins 2 caractères");
+    return;
+  }
+
+  console.log("Envoie le formulaire");
+  title.value = "";
+  fileInput.value = "";
+  category.value = "";
+  submit.disabled = true;
+  removePreview();
+});
+
+//Fonction de prévisualisation d’image//
+fileInput.addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  const allowedTypes = ["image/jpeg", "image/png"];
+  const maxSize = 4 * 1024 * 1024; // 4 Mo
+
+  if (!allowedTypes.includes(file.type)) {
+    alert("Veuillez choisir une image au format JPG ou PNG");
+    this.value = "";
+    return;
+  }
+
+  if (file.size > maxSize) {
+    alert("L’image ne doit pas dépasser 4 Mo");
+    this.value = "";
+    return;
+  }
+
+  // Crée un aperçu
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    removePreview(); // supprime ancienne preview si besoin
+
+    const img = document.createElement("img");
+    img.src = e.target.result;
+    img.alt = "Prévisualisation";
+    img.classList.add("preview-image");
+
+    fileContainer.appendChild(img);
+    hideContainer();
+    checkForm();
+  };
+  reader.readAsDataURL(file);
+});
+
+function removePreview() {
+  const oldPreview = fileContainer.querySelector(".preview-image");
+  if (oldPreview) oldPreview.remove();
+  showContainer();
+}
+
+function hideContainer() {
+  fileContainer.querySelector("svg").style.display = "none";
+  fileContainer.querySelector("#label-file").style.display = "none";
+  fileContainer.querySelector("span").style.display = "none";
+}
+
+function showContainer() {
+  fileContainer.querySelector("svg").style.display = "";
+  fileContainer.querySelector("#label-file").style.display = "";
+  fileContainer.querySelector("span").style.display = "";
+}
+
+//addForm.addEventListener("submit", (e) => {
+  //  e.preventDefault()
+    //if (addForm.title.value.length < 2) {
+    //    alert("Veuillez saisir au moins 2 caractères")
+      //  return
+    //}
+
+    //console.log("envoie le formulaire")
+    //addForm.title.value = ""
+//})
+
+//addForm.title.addEventListener("input", () => {
+  //  if (addForm.title.value != "") {
+    //    addForm.submit.disabled = false
+    //} else {
+      //  addForm.submit.disabled = true
+    //}
+//})
+
