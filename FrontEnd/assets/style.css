@@ -153,6 +153,8 @@ li:hover {
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
+	max-width: 420px;
 }
 
 #contact input, form input, form select {
@@ -320,7 +322,7 @@ form a {
 	padding-top: 25px;
 }
 
-.close-btn {
+.close-btn, .close-btn-ajout {
 	position: absolute;
   	top: 5px;
   	right: 20px;

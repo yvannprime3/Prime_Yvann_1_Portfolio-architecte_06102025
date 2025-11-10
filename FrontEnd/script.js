@@ -183,7 +183,7 @@ document.querySelector(".add-photo-btn").addEventListener("click", () => {
 })
 
 //Fermeture de la modale "Ajout photo"//
-document.querySelector(".close-btn").addEventListener("click", () => {
+document.querySelector(".close-btn-ajout").addEventListener("click", () => {
 	document.querySelector(".modal-container-ajout").classList.remove("show")
 })
 
