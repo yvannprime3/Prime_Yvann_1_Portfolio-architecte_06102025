@@ -1,3 +1,4 @@
+//Récupération des travaux à partir de l'API//
 fetch("http://localhost:5678/api/works").then((res) => {
 	if (!res.ok) {
 		document.querySelector(".gallery").textContent = "Erreur de connexion"
@@ -8,30 +9,27 @@ fetch("http://localhost:5678/api/works").then((res) => {
 		document.querySelector(".gallery").textContent = ""
 		data.forEach((work) => {
 			const figure = document.createElement("figure")
-            const figcaption = document.createElement("figcaption")
-            const image = document.createElement("img")
+      const figcaption = document.createElement("figcaption")
+      const image = document.createElement("img")
 
-            image.src = work.imageUrl
-            image.alt = work.title
-            figcaption.textContent = work.title
-            figure.appendChild(image.cloneNode())
-            figure.appendChild(figcaption)
-            figure.setAttribute("data-categoryId", work.categoryId)
-            figure.setAttribute("data-id", work.id)
-            document.querySelector(".gallery").appendChild(figure)
+      image.src = work.imageUrl
+      image.alt = work.title
+      figcaption.textContent = work.title
+      figure.appendChild(image.cloneNode())
+      figure.appendChild(figcaption)
+      figure.setAttribute("data-categoryId", work.categoryId)
+      figure.setAttribute("data-id", work.id)
+      document.querySelector(".gallery").appendChild(figure)
 		})
-		const travailRamener = document
-			.querySelector(".gallery")
-			.querySelectorAll("figure")
+		const travailRamener = document.querySelector(".gallery").querySelectorAll("figure")
 
-		// select les boutons filtres
-		// attendre la reponse de la requete fetch
+		//Séléction des boutons filtres//
 		const boutonTous = document.querySelector(".btn-tous")
 		const boutonObjets = document.querySelector(".btn-objets")
 		const boutonAppartements = document.querySelector(".btn-appartements")
 		const boutonHotelsRestaurants = document.querySelector(".btn-hotelsRestaurants")
-		// Boutons filtres //
 
+    //Listener du click pour chaque bouton//
 		boutonTous.addEventListener("click", () => filtrer(travailRamener, 0))
 		boutonObjets.addEventListener("click", () => filtrer(travailRamener, 1))
 		boutonAppartements.addEventListener("click", () => filtrer(travailRamener, 2))
@@ -39,9 +37,8 @@ fetch("http://localhost:5678/api/works").then((res) => {
 	})
 })
 
+//Fonction de filtrage//
 const filtrer = (travailArray, filterNo) => {
-	console.log(travailArray, filterNo)
-	// afficher tous les travaux
 
 	if (filterNo === 0) {
 		travailArray.forEach((figure) => {
@@ -49,10 +46,11 @@ const filtrer = (travailArray, filterNo) => {
 		})
 	}
 	if (filterNo === 1) {
-		// afficher tous les travaux
+		//Afficher tous les travaux//
 		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
 				figure.style.display = "block"
 			})
+    //Afficher les travaux de catégorie 1//
 		travailArray.forEach((figure) => {
 			if (parseInt(figure.getAttribute("data-categoryId")) !== 1) {
 				figure.style.display = "none"
@@ -60,7 +58,6 @@ const filtrer = (travailArray, filterNo) => {
 		})
 	}
 	if (filterNo === 2) {
-		// afficher tous les travaux
 		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
 				figure.style.display = "block"
 			})
@@ -71,8 +68,6 @@ const filtrer = (travailArray, filterNo) => {
 		})
 	}
 	if (filterNo === 3) {
-		// afficher tous les travaux
-
 		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
 				figure.style.display = "block"
 			})
@@ -83,13 +78,13 @@ const filtrer = (travailArray, filterNo) => {
 		})
 	}
 }
-
-  const buttons = document.querySelectorAll("button");
+  //Ajout de la class="active" sur les boutons au click//
+  const buttons = document.querySelectorAll("button")
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
-      buttons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
+      buttons.forEach(btn => btn.classList.remove('active'))
+      button.classList.add('active')
 	});
 });
 
@@ -114,35 +109,46 @@ modal.addEventListener("click", (e) => {
 //Récupération des travaux à partir de l'API pour la modale "Galerie photo"//
 fetch("http://localhost:5678/api/works").then((res) => {
 	if (!res.ok) {
-		document.querySelector(".gallery-modal").innerHTML = "Erreur de connexion"
+		document.querySelector(".gallery-modal").textContent = "Erreur de connexion"
 		return
 	}
 	res.json().then((data) => {
-		console.log(data)
-		document.querySelector(".gallery-modal").innerHTML = ""
-		data.forEach((work) => {
-			document.querySelector(".gallery-modal").innerHTML += `
-        	<figure data-categoryId=${work.categoryId}  >
-				<img src="${work.imageUrl}" alt="Abajour Tahina">
-				<button class="delete-btn" data-id="${work.id}" title="Supprimer">
-              	<i class="fa-solid fa-trash-can"></i>
-            	</button>
-			</figure>
-        `
-		})
-		//Option de suppression des travaux sur la modale "Galerie photo"//
-			document.querySelectorAll(".delete-btn").forEach((btn) => {
-      		btn.addEventListener("click", (e) => {
-        	e.preventDefault();
-        	const id = btn.dataset.id;
+    console.log(data)
+    const galleryModal = document.querySelector(".gallery-modal")
+    galleryModal.textContent = ""
 
-        	//Confirmation avant suppression//
-       		 if (!confirm("Supprimer cette image ?")) return;
+    data.forEach((work) => {
+        const figure = document.createElement("figure")
+        const img = document.createElement("img")
+        const deleteBtn = document.createElement("button")
+        const icon = document.createElement("i")
 
-        	deleteWork(id);
-      		});
-		})
-	})
+        figure.dataset.categoryId = work.categoryId
+        figure.dataset.id = work.id
+
+        img.src = work.imageUrl
+        img.alt = work.title
+
+        deleteBtn.classList.add("delete-btn")
+        deleteBtn.dataset.id = work.id
+        deleteBtn.title = "Supprimer"
+
+        icon.classList.add("fa-solid", "fa-trash-can")
+        deleteBtn.appendChild(icon)
+
+        figure.appendChild(img)
+        figure.appendChild(deleteBtn)
+        galleryModal.appendChild(figure)
+
+        //Listener de la suppresion au click//
+        deleteBtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            if (confirm("Supprimer cette image ?")) {
+                deleteWork(work.id)
+            }
+          })
+      })
+  })
 })
 
 //Fonction de suppresion de travaux//
@@ -153,28 +159,37 @@ function deleteWork(id) {
   })
     .then((res) => {
       if (res.ok) {
-        //Supprimer l'élément du DOM//
-        const figure = document.querySelector(`figure[data-id="${id}"]`);
+        const figure = document.querySelector(`figure[data-id="${id}"]`)
 		const buttonModale = document.querySelector([`button[data-id="${id}"]`])
-        if (figure) figure.remove();
+        if (figure) figure.remove()
 		if (buttonModale) buttonModale.parentElement.remove()
-        console.log(`Image ${id} supprimée`);
+        console.log(`Image ${id} supprimée`)
       } else {
-        alert("Erreur lors de la suppression de l’image.");
+        alert("Erreur lors de la suppression de l'image.")
       }
     })
 }
 
-//Apparition du bouton modfier sur index.html après connexion//
+//Apparition du bouton modfier/bandeau edition/bouton logout(déconnexion) sur index.html après connexion//
 window.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token");
-
+  const token = localStorage.getItem("token")
+  const loginLink = document.querySelector(".login")
+  
   if (token) {
-    const modifier = document.querySelector(".btn-modifier");
-    console.log(modifier)
-    modifier.style.display = "flex";
-}
-});
+    const modifier = document.querySelector(".btn-modifier")
+    modifier.style.display = "flex"
+    const edition = document.querySelector(".edition")
+    edition.style.display = "flex"
+    loginLink.textContent = "logout"
+    loginLink.href = "#"
+    loginLink.addEventListener("click", (e) => {
+      e.preventDefault()
+      localStorage.removeItem("token")
+      location.reload()
+      })
+    }
+  })
+
 
 //Apparition de la modale "Ajout photo" avec fermeture de la modale "Galerie photo"//
 document.querySelector(".add-photo-btn").addEventListener("click", () => {
@@ -211,118 +226,178 @@ fetch("http://localhost:5678/api/categories").then((res) => {
         console.log(data)
         data.forEach((category) => {
             const option = document.createElement("option")
-            option.value = category.name
+            option.value = category.id
             option.textContent = category.name
             document.querySelector("#category").appendChild(option)
         })
     })
 })
 
-console.log("script chargé");
+//Validation du formulaire//
+const addForm = document.getElementById("addForm")
+const submit = document.getElementById("submit")
+const title = document.getElementById("title")
+const fileInput = document.getElementById("file")
+const category = document.getElementById("category")
+const fileContainer = document.querySelector(".file-container")
 
-const addForm = document.getElementById("addForm");
-const submit = document.getElementById("submit");
-const title = document.getElementById("title");
-const fileInput = document.getElementById("file");
-const category = document.getElementById("category");
-const fileContainer = document.querySelector(".file-container");
-
-//Vérifie que tout est rempli//
+//Fonction qui vérifie que le formulaire est bien rempli//
 function checkForm() {
-  const isValid = title.value.trim() !== "" && fileInput.files.length > 0 && category.value.trim() !== "";
-  submit.disabled = !isValid;
+  const isValid = title.value.trim() !== "" && fileInput.files.length > 0 && category.value.trim() !== ""
+  submit.disabled = !isValid
 }
 
-addForm.addEventListener("input", checkForm);
-addForm.addEventListener("change", checkForm);
+addForm.addEventListener("input", checkForm)
+addForm.addEventListener("change", checkForm)
 
-addForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  console.log("submit déclenché !");
+//Soumission du formulaire//
+addForm.addEventListener("submit", async (e) => {
+  e.preventDefault()
+
   if (title.value.length < 2) {
-    alert("Veuillez saisir au moins 2 caractères");
-    return;
+    alert("Veuillez saisir au moins 2 caractères")
+    return
+  }
+  if (fileInput.files.length === 0) {
+    alert("Veuillez sélectionner une image")
+    return
+  }
+  if (category.value.trim() === "") {
+    alert("Veuillez sélectionner une catégorie")
+    return
   }
 
-  console.log("Envoie le formulaire");
-  title.value = "";
-  fileInput.value = "";
-  category.value = "";
-  submit.disabled = true;
-  removePreview();
-});
+  //Récupère le formulaire pour l'ajout de travaux//
+  const formData = new FormData()
+  formData.append("image", fileInput.files[0])
+  formData.append("title", title.value.trim())
+  formData.append("category", parseInt(category.value, 10))
+
+  await addWork(formData)
+
+  //Vide le formulaire après l'événement submit//
+  addForm.reset()
+  submit.disabled = true
+  removePreview()
+  showContainer()
+
+  //Ferme la modale d’ajout après l'événement "submit"//
+  document.querySelector(".modal-container-ajout").classList.remove("show")
+})
+
+//Fonction d’ajout du travail à l’API//
+async function addWork(formData) {
+  try {
+    const token = localStorage.getItem("token")
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${token}` },
+      body: formData,
+    })
+
+    if (!response.ok) {
+      alert("Erreur lors de l'ajout du projet : " + response.status)
+      return
+    }
+
+    const newWork = await response.json()
+    console.log("Projet ajouté :", newWork)
+
+    //Ajoute à la galerie principale//
+    const gallery = document.querySelector(".gallery")
+    const figure = document.createElement("figure")
+    figure.dataset.id = newWork.id
+    figure.dataset.categoryId = newWork.categoryId
+
+    const img = document.createElement("img")
+    img.src = newWork.imageUrl
+    img.alt = newWork.title
+
+    const figcaption = document.createElement("figcaption")
+    figcaption.textContent = newWork.title
+
+    figure.appendChild(img)
+    figure.appendChild(figcaption)
+    gallery.appendChild(figure)
+
+    //Ajoute à la galerie modale//
+    const galleryModal = document.querySelector(".gallery-modal")
+    const figureModal = document.createElement("figure")
+    figureModal.dataset.id = newWork.id
+    figureModal.innerHTML = `
+      <img src="${newWork.imageUrl}" alt="${newWork.title}">
+      <button class="delete-btn" data-id="${newWork.id}" title="Supprimer">
+        <i class="fa-solid fa-trash-can"></i>
+      </button>
+    `
+    galleryModal.appendChild(figureModal)
+
+    //Réattache le listener du bouton de suppression pour ce nouvel élément//
+    figureModal.querySelector(".delete-btn").addEventListener("click", () => {
+      if (confirm("Supprimer cette image ?")) {
+        deleteWork(newWork.id)
+      }
+    });
+  } catch (error) {
+    console.error("Erreur :", error)
+    alert("Une erreur est survenue lors de l'ajout du projet.")
+  }
+}
 
 //Fonction de prévisualisation d’image//
 fileInput.addEventListener("change", function () {
-  const file = this.files[0];
+  const file = this.files[0]
   if (!file) return;
 
-  const allowedTypes = ["image/jpeg", "image/png"];
-  const maxSize = 4 * 1024 * 1024; // 4 Mo
+  const allowedTypes = ["image/jpeg", "image/png"]
+  const maxSize = 4 * 1024 * 1024
 
   if (!allowedTypes.includes(file.type)) {
-    alert("Veuillez choisir une image au format JPG ou PNG");
-    this.value = "";
-    return;
+    alert("Veuillez choisir une image au format JPG ou PNG")
+    this.value = ""
+    return
   }
 
   if (file.size > maxSize) {
-    alert("L’image ne doit pas dépasser 4 Mo");
-    this.value = "";
-    return;
+    alert("L'image ne doit pas dépasser 4 Mo")
+    this.value = ""
+    return
   }
 
-  // Crée un aperçu
-  const reader = new FileReader();
+  //Crée un aperçu de l'image//
+  const reader = new FileReader()
   reader.onload = function (e) {
-    removePreview(); // supprime ancienne preview si besoin
+    removePreview()
 
-    const img = document.createElement("img");
-    img.src = e.target.result;
-    img.alt = "Prévisualisation";
-    img.classList.add("preview-image");
+    const img = document.createElement("img")
+    img.src = e.target.result
+    img.alt = "Prévisualisation"
+    img.classList.add("preview-image")
 
-    fileContainer.appendChild(img);
-    hideContainer();
-    checkForm();
-  };
-  reader.readAsDataURL(file);
-});
+    fileContainer.appendChild(img)
+    hideContainer()
+    checkForm()
+  }
+  reader.readAsDataURL(file)
+})
 
+//Fonction de changement de prévisualisation d'image//
 function removePreview() {
-  const oldPreview = fileContainer.querySelector(".preview-image");
-  if (oldPreview) oldPreview.remove();
-  showContainer();
+  const oldPreview = fileContainer.querySelector(".preview-image")
+  if (oldPreview) oldPreview.remove()
+  showContainer()
 }
 
+//Fonction de cacher le contenu du label de input type="file"//
 function hideContainer() {
-  fileContainer.querySelector("svg").style.display = "none";
-  fileContainer.querySelector("#label-file").style.display = "none";
-  fileContainer.querySelector("span").style.display = "none";
+  fileContainer.querySelector("svg").style.display = "none"
+  fileContainer.querySelector("#label-file").style.display = "none"
+  fileContainer.querySelector("span").style.display = "none"
 }
 
+//Fonction de montrer le contenu du label de input type="file"//
 function showContainer() {
-  fileContainer.querySelector("svg").style.display = "";
-  fileContainer.querySelector("#label-file").style.display = "";
-  fileContainer.querySelector("span").style.display = "";
+  fileContainer.querySelector("svg").style.display = ""
+  fileContainer.querySelector("#label-file").style.display = ""
+  fileContainer.querySelector("span").style.display = ""
 }
-
-//addForm.addEventListener("submit", (e) => {
-  //  e.preventDefault()
-    //if (addForm.title.value.length < 2) {
-    //    alert("Veuillez saisir au moins 2 caractères")
-      //  return
-    //}
-
-    //console.log("envoie le formulaire")
-    //addForm.title.value = ""
-//})
-
-//addForm.title.addEventListener("input", () => {
-  //  if (addForm.title.value != "") {
-    //    addForm.submit.disabled = false
-    //} else {
-      //  addForm.submit.disabled = true
-    //}
-//})
-

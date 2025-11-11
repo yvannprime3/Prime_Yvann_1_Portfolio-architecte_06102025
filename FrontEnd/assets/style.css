@@ -484,3 +484,12 @@ button:disabled {
   	border-radius: 4px;
   	object-fit: cover;
 }
+
+.edition {
+    background-color: #000000;
+    color: #FFFFFF;
+    display: none;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+}
