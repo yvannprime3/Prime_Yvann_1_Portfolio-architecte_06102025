@@ -202,6 +202,7 @@ footer nav ul {
 	background-color: white;
 	border: 1px solid #1D6154;
 	border-radius: 60px;
+	cursor: pointer;
 }
 
 .btn-tous {

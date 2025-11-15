@@ -176,6 +176,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const loginLink = document.querySelector(".login")
   
   if (token) {
+    const filtres = document.querySelector(".filtres")
+    filtres.style.display = "none"
     const modifier = document.querySelector(".btn-modifier")
     modifier.style.display = "flex"
     const edition = document.querySelector(".edition")
