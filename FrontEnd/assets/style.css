@@ -195,7 +195,7 @@ footer nav ul {
 	margin-bottom: 40px;
 }
 
-.btn-tous, .btn-appartements, .btn-hotelsRestaurants, .btn-objets {
+.btn-filter {
 	font-family: 'Syne';
 	font-size: 16px;
 	color: #1D6154;
@@ -203,30 +203,15 @@ footer nav ul {
 	border: 1px solid #1D6154;
 	border-radius: 60px;
 	cursor: pointer;
+	padding : 8px 20px;
 }
 
-.btn-tous {
-	padding: 8px 25px;
-}
-
-.btn-objets {
-	padding: 8px 20px;
-}
-
-.btn-appartements {
-	padding: 8px 15px;
-}
-
-.btn-hotelsRestaurants {
-	padding: 8px 10px;
-}
-
-.btn-tous:hover, .btn-appartements:hover, .btn-hotelsRestaurants:hover, .btn-objets:hover {
+.btn-filter:hover {
 	background-color: #1D6154;
 	color: white;
 }
 
-.btn-tous.active, .btn-appartements.active, .btn-hotelsRestaurants.active, .btn-objets.active {
+.btn-filter.active {
 	background-color: #1D6154;
 	color: white;
 }

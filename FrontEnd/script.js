@@ -1,92 +1,104 @@
-//Récupération des travaux à partir de l'API//
-fetch("http://localhost:5678/api/works").then((res) => {
-	if (!res.ok) {
-		document.querySelector(".gallery").textContent = "Erreur de connexion"
-		return
-	}
-	res.json().then((data) => {
-		console.log(data)
-		document.querySelector(".gallery").textContent = ""
-		data.forEach((work) => {
-			const figure = document.createElement("figure")
-      const figcaption = document.createElement("figcaption")
-      const image = document.createElement("img")
+//Stockage de tous les travaux//
+let works = []
 
-      image.src = work.imageUrl
-      image.alt = work.title
-      figcaption.textContent = work.title
-      figure.appendChild(image.cloneNode())
-      figure.appendChild(figcaption)
-      figure.setAttribute("data-categoryId", work.categoryId)
-      figure.setAttribute("data-id", work.id)
-      document.querySelector(".gallery").appendChild(figure)
-		})
-		const travailRamener = document.querySelector(".gallery").querySelectorAll("figure")
+//Fonctions d'affichage des travaux//
+function displayWorks(list) {
+    const gallery = document.querySelector(".gallery")
+    gallery.innerHTML = ""
 
-		//Séléction des boutons filtres//
-		const boutonTous = document.querySelector(".btn-tous")
-		const boutonObjets = document.querySelector(".btn-objets")
-		const boutonAppartements = document.querySelector(".btn-appartements")
-		const boutonHotelsRestaurants = document.querySelector(".btn-hotelsRestaurants")
+    list.forEach((work) => {
+        const figure = document.createElement("figure")
+        const figcaption = document.createElement("figcaption")
+        const image = document.createElement("img")
 
-    //Listener du click pour chaque bouton//
-		boutonTous.addEventListener("click", () => filtrer(travailRamener, 0))
-		boutonObjets.addEventListener("click", () => filtrer(travailRamener, 1))
-		boutonAppartements.addEventListener("click", () => filtrer(travailRamener, 2))
-		boutonHotelsRestaurants.addEventListener("click", () => filtrer(travailRamener, 3))
-	})
-})
+        image.src = work.imageUrl
+        image.alt = work.title
+        figcaption.textContent = work.title
 
-//Fonction de filtrage//
-const filtrer = (travailArray, filterNo) => {
+        figure.appendChild(image)
+        figure.appendChild(figcaption)
 
-	if (filterNo === 0) {
-		travailArray.forEach((figure) => {
-			figure.style.display = "block"
-		})
-	}
-	if (filterNo === 1) {
-		//Afficher tous les travaux//
-		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
-				figure.style.display = "block"
-			})
-    //Afficher les travaux de catégorie 1//
-		travailArray.forEach((figure) => {
-			if (parseInt(figure.getAttribute("data-categoryId")) !== 1) {
-				figure.style.display = "none"
-			}
-		})
-	}
-	if (filterNo === 2) {
-		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
-				figure.style.display = "block"
-			})
-		travailArray.forEach((figure) => {
-			if (parseInt(figure.getAttribute("data-categoryId")) !== 2) {
-				figure.style.display = "none"
-			}
-		})
-	}
-	if (filterNo === 3) {
-		document.querySelector(".gallery").querySelectorAll("figure").forEach((figure) => {
-				figure.style.display = "block"
-			})
-		travailArray.forEach((figure) => {
-			if (parseInt(figure.getAttribute("data-categoryId")) !== 3) {
-				figure.style.display = "none"
-			}
-		})
-	}
+        figure.dataset.categoryId = work.categoryId
+        figure.dataset.id = work.id
+
+        gallery.appendChild(figure)
+    })
 }
-  //Ajout de la class="active" sur les boutons au click//
-  const buttons = document.querySelectorAll("button")
 
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      buttons.forEach(btn => btn.classList.remove('active'))
-      button.classList.add('active')
-	});
-});
+//Fonction de filtrage des travaux//
+function filterWorks(categoryId) {
+    if (categoryId === 0) {
+        displayWorks(works)
+    } else {
+        const filtered = works.filter(work => work.categoryId === categoryId)
+        displayWorks(filtered)
+    }
+}
+
+//Fonctions de génération des filtres//
+function generateFilters(categories) {
+    const filtersContainer = document.querySelector(".filtres")
+
+    //Création du bouton "Tous"//
+    const btnAll = document.createElement("button")
+    btnAll.textContent = "Tous"
+    btnAll.classList.add("btn-filter", "active")
+    btnAll.dataset.id = 0
+    filtersContainer.appendChild(btnAll)
+
+    //Récupération des catégories à partir de l'API pour la création des filtres//
+    categories.forEach((category) => {
+        const button = document.createElement("button")
+        button.textContent = category.name
+        button.classList.add("btn-filter")
+        button.dataset.id = category.id
+
+        filtersContainer.appendChild(button)
+    })
+
+    //Filtrage + bouton actif//
+    filtersContainer.addEventListener("click", (e) => {
+        if (e.target.tagName !== "BUTTON") return
+
+        document.querySelectorAll(".btn-filter").forEach(btn =>
+            btn.classList.remove("active")
+        )
+
+        e.target.classList.add("active")
+
+        const categoryId = Number(e.target.dataset.id)
+        filterWorks(categoryId)
+    })
+}
+
+//Récupération des catégories avec la fonction de génération des filtres//
+fetch("http://localhost:5678/api/categories")
+    .then(res => {
+        if (!res.ok) {
+            console.error("Erreur de connexion aux catégories")
+            return
+        }
+        return res.json()
+    })
+    .then(categories => {
+        generateFilters(categories)
+    })
+    .catch(err => console.error(err))
+
+//Récupération des travaux avec la fonction d'affichage des travaux//
+fetch("http://localhost:5678/api/works")
+    .then(res => {
+        if (!res.ok) {
+            document.querySelector(".gallery").textContent = "Erreur de connexion"
+            return
+        }
+        return res.json()
+    })
+    .then(data => {
+        works = data
+        displayWorks(works)
+    })
+    .catch(err => console.error(err))
 
 //Apparition de la modale "Galerie photo"//
 document.querySelector(".btn-modifier").addEventListener("click", () => {
